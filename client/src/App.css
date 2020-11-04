@@ -1,0 +1,23 @@
+.container{
+
+  margin: 40px 0 0 0;
+  background-image: url(assests/jumbotron.jpg);
+  height:350px;
+  width:100%;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+
+}
+.jumbotron-heading{
+  text-align:center;
+  padding-top:3rem;
+  
+}
+
+header >>> .nav-center{
+  margin:auto;
+}
+/* .nav-right{
+  align-items:right;
+} */
