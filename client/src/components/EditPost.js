@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { Form, Container, Row, Col, Button, Card } from 'react-bootstrap'
-import { connect } from 'react-redux';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {postPost } from '../redux/actions/dataActions'
+import { Form, Row, Col, Button, Modal } from 'react-bootstrap'
+import {connect} from 'react-redux';
+import {editPostDetails} from '../redux/actions/dataActions'
 
+ class EditPost extends Component {
 
-class createPost extends Component {
-
-  state= {
+  state = {
+  
     category: "",
     description: "",
     image: "",
@@ -16,16 +16,45 @@ class createPost extends Component {
     price: "",
     unit: "",
     ready:"",
-    errors: {}
+    open: false
+  };
+
+  mapPostDetailsToState = (post) =>{
+    this.setState({
+      postId: post.postId,
+      category: post.category,
+      description: post.description,
+      image: post.image,
+      isOrganic: post.isOrganic,
+      title: post.title,
+      price: post.price,
+      unit: post.unit,
+      ready:post.ready
+    })
+  }
+
+  handleOpen =() => {
+    this.setState({ open:true})
+    this.mapPostDetailsToState(this.props.post)
+  }
+  handleClose = () => {
+    this.setState({ open: false})
+  }
+
+  componentDidMount(){
+   const {post} = this.props;
+   this.mapPostDetailsToState(post)
   }
 
   handleChange = (event) => {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({
+      [event.target.name] : event.target.value
+    });
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const newPost ={
+  handleSubmit = () => {
+    const postDetails ={
+      postId: this.state.postId,
     category:this.state.category,
     description:this.state.description,
     image:this.state.image,
@@ -35,22 +64,26 @@ class createPost extends Component {
     unit:this.state.unit, 
     ready:this.state.ready
   };
-  this.props.postPost(newPost, this.props.history)
-  }
+  this.props.editPostDetails(this.props.postId, postDetails);
+  this.handleClose();
+}
 
   render() {
-
-    const { errors } = this.state;
-    const { UI: {isLoading}} = this.props;
-
     return (
-      <Container fluid>
-    <Row className="justify-content-center">
-      <Col xs={8} className="py-5">
-        {/* <!--Login Bootstrap Card--> */}
-        <Card className="text-center shadow-lg p-4 mt-5">
-          <h2 className="new-post-heading">Create a New Post</h2>
-          <Form onSubmit={this.handleSubmit}>
+      <Fragment>
+         <button 
+      type="button" 
+      className="btn btn-lg btn-post"
+      onClick = {this.handleOpen}
+      >Edit</button>
+
+      <Modal show={this.state.open} onHide={this.handleClose} centered size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+        <Form onSubmit={this.handleSubmit}>
             <Row>
               {/* <!--Left Col--> */}
              
@@ -189,27 +222,31 @@ class createPost extends Component {
                   </Form.Group>
                  
               </Col>
-              <Col xs={12}>
-                <Button type="submit" className="w-100 form-submit" >Submit</Button>
-              </Col>
             </Row>
           </Form>
-        </Card>
-        {/* // <!-- /Login Bootstrap Card--> */}
-      </Col>
-    </Row>
-  </Container>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={this.handleClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={this.handleSubmit}>
+           Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
+        
+      </Fragment>
     )
   }
 }
 
-createPost.propTypes = {
-  postPost: PropTypes.func.isRequired,
-  UI: PropTypes.object.isRequired,
+EditPost.propTypes ={
+  editPostDetails : PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-  UI: state.UI
+  post: state.data.post
 })
 
-export default connect(mapStateToProps, {postPost})(createPost)
+export default connect(mapStateToProps, {editPostDetails})(EditPost)

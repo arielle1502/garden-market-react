@@ -3,7 +3,9 @@ import React, { Component, Fragment } from 'react';
 import { Button, Modal} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {deletePost} from '../redux/actions/dataActions';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { Link} from 'react-router-dom';
+
 
 
 export class DeletePost extends Component {
@@ -11,6 +13,8 @@ export class DeletePost extends Component {
   state = {
     open:false
   };
+
+  
   handleOpen = () => {
     this.setState({ open: true})
   };
@@ -18,8 +22,10 @@ export class DeletePost extends Component {
     this.setState({ open: false})
   };
   deletePost = () => {
+    
     this.props.deletePost(this.props.postId);
-    this.setState({ open: false})
+    this.setState({ open: false});
+    
   };
 
   render() {
@@ -39,9 +45,9 @@ export class DeletePost extends Component {
           <Button variant="secondary" onClick={this.handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={this.deletePost}>
+          <Link to="/" className=" btn btn-primary" variant="primary" onClick={this.deletePost}>
            Delete
-          </Button>
+          </Link>
         </Modal.Footer>
       </Modal>
       </Fragment>

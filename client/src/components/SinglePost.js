@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {Container, Row, Col } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Container, Row, Col} from 'react-bootstrap';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
 import vegpost from '../assests/vegpost.png';
@@ -8,15 +7,33 @@ import postfruit from '../assests/postfruit.png';
 import herbspost from '../assests/herbspost.png';
 import postanimal from '../assests/postanimal.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { connect } from 'react-redux';
+import { getPost } from '../redux/actions/dataActions';
+import PropTypes from 'prop-types';
+import Comments from './Comments'
 
 
-export default class Post extends Component {
+
+ class SinglePost extends Component {
+
+  state = {
+    open: false
+  }
+  handleOpen= () => {
+    this.setState({open: true});
+    this.props.getPost(this.props.postId)
+  }
+  
+
+  handleClose = () => {
+    this.setState({open:false})
+  }
 
   render() {
-
-    dayjs.extend(relativeTime)
+dayjs.extend(relativeTime)
    
-    const {post:{postId, author, category, createdAt, image, isOrganic, price, ready, title, unit, userCity, userImage, commentCount }} = this.props
+    
+    const {post:{ category, createdAt, image, isOrganic, price, ready, title, unit, userCity, commentCount, description, comments }, UI:{isLoading}} = this.props
 
     let catIcon =  (category === 'fruit') ? <img src={postfruit} className="img-fluid" alt=""></img> : (category === 'vegetable') ? <img src={vegpost} className="img-fluid" alt=""></img> : (category === 'herbs') ? <img src={herbspost}className="img-fluid" alt=""></img> : <img src={postanimal} className="img-fluid" alt=""></img>
 
@@ -63,8 +80,13 @@ export default class Post extends Component {
                    <FontAwesomeIcon icon='comment' size='sm' />
                      </Col>
                      <Col xs={3} className="tbl-text">Comments: </Col>
-                   <Col xs={5} className="tbl-text">{commentCount}</Col>
-                    
+                   <Col xs={2} className="tbl-text">{commentCount}</Col>
+                   <Col xs={5}> <button 
+                      type="button" 
+                      className="btn btn-post"
+                      onClick = {this.handleOpen}
+                      >View Comments</button></Col>
+                    <Comments comments={comments}/>
                
               </Row>
             </Col>
@@ -79,18 +101,9 @@ export default class Post extends Component {
             <Row className="align-items-center post-bottom">
               {/* <Col xs="4" className="price-bottom"><p>FREE</p></Col> */}
             <Col xs={4} className="price-bottom"><p>${price}/{unit}</p></Col>
-            
-            <Col xs={4} className="img-bottom justify-content-center">
-              
-              <img src={userImage} className="rounded-circle img-responsive" alt=""></img>
-              <p>{author}</p>
-             
+             <Col xs={8} className="text-center post-descript">
+              <p>{description}</p>
              </Col>
-            <Col xs={4} className="text-center">
-              
-              <Link to={`/post/${postId}`} type="button" className="btn btn-lg btn-post">View More</Link>
-              
-              </Col>
           </Row>
             {/* <!-- end post-bottom --> */}
              </Row>
@@ -99,3 +112,22 @@ export default class Post extends Component {
     )
   }
 }
+
+SinglePost.propTypes ={
+  getPost: PropTypes.func.isRequired,
+  postId: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  post: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  post: state.data.post,
+  UI: state.UI
+})
+
+const mapActionsToProps = {
+  getPost
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(SinglePost)

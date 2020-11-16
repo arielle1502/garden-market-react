@@ -4,8 +4,6 @@ import Post from '../components/Post';
 import Profile from '../components/Profile';
 import PropTypes from 'prop-types';
 
-
-
 //redux
 import { connect } from 'react-redux';
 import { getPosts } from '../redux/actions/dataActions'

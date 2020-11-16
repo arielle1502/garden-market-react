@@ -16,7 +16,8 @@ class signup extends Component {
       email: '',
       password:'',
       username:'',
-      isErrors: {}
+      city: '',
+      errors: {}
     }
   }
   componentWillReceiveProps(nextProps){
@@ -29,10 +30,12 @@ class signup extends Component {
     this.setState({
       isLoading:true
     });
+    
     const newUserData = {
       email: this.state.email,
       password: this.state.password,
-      username: this.state.username
+      username: this.state.username,
+      city: this.state.city
     };
     this.props.signupUser(newUserData, this.props.history);
   }
@@ -45,7 +48,7 @@ class signup extends Component {
 
   render() {
     const { UI: {isLoading}} = this.props;
-    const {isErrors} = this.state;
+    const {errors} = this.state;
     return (
       <Container fluid>
       <Row className="justify-content-center">
@@ -61,10 +64,10 @@ class signup extends Component {
             className="mb-3"
             value={this.state.email} 
             onChange={this.handleChange} 
-            error={isErrors.email ? true : false}
+            error={errors.email ? true : false}
             aria-describedby="emailerror">
             </Form.Control>
-            <Form.Text id="emailerror">{isErrors.email}</Form.Text>
+            <Form.Text id="emailerror">{errors.email}</Form.Text>
 
             <Form.Control 
             type="password" 
@@ -73,13 +76,13 @@ class signup extends Component {
             className="mb-3"
             value={this.state.password} 
             onChange={this.handleChange} 
-            error={isErrors.password ? true : false}
+            error={errors.password ? true : false}
             aria-describedby="passworderror">
             </Form.Control>
-            <Form.Text id="emailerror">{isErrors.password}</Form.Text>
-        {isErrors.general &&(
-          <p>{isErrors.general}</p>
-        )}
+            <Form.Text id="emailerror">{errors.password}</Form.Text>
+        {/* {errors.general &&(
+          <p>{errors.general}</p>
+        )} */}
 
             <Form.Control 
             type="text" 
@@ -88,10 +91,22 @@ class signup extends Component {
             className="mb-3"
             value={this.state.username} 
             onChange={this.handleChange} 
-            error={isErrors.username ? true : false}
+            error={errors.username ? true : false}
             aria-describedby="passworderror">
             </Form.Control>
-            <Form.Text id="emailerror">{isErrors.username}</Form.Text>
+            <Form.Text id="passworderror">{errors.username}</Form.Text>
+
+            <Form.Control 
+            type="text" 
+            name="city" 
+            placeholder="City" 
+            className="mb-3"
+            value={this.state.city} 
+            onChange={this.handleChange} 
+            error={errors.city ? true : false}
+            aria-describedby="cityerror">
+            </Form.Control>
+            <Form.Text id="cityerror">{errors.city}</Form.Text>
        
             <Button type="submit" className="btn w-100" >Sign Up
             <br/> {isLoading && (

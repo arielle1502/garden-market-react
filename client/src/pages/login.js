@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Card, Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import {Link} from 'react-router-dom'
 
 //redux
@@ -73,7 +72,7 @@ class login extends Component {
           aria-describedby="passworderror"
           className="mb-3"
           />
-          <Form.Text id="emailerror">{errors.password}</Form.Text>
+          <Form.Text id="passworderror">{errors.password}</Form.Text>
         {errors.general &&(
           <p>{errors.general}</p>
         )}

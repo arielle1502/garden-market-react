@@ -4,15 +4,26 @@ import {Link} from 'react-router-dom'
 // import Post from '../components/Post'
 import lettuce from '../assests/lettuce.png';
 import DeletePost from '../components/DeletePost';
+import EditPost from '../components/EditPost'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
+import SinglePost from '../components/SinglePost';
+import { getPost } from '../redux/actions/dataActions';
+
 
 
 class viewPost extends Component {
+  componentDidMount() {
+    const {postId} = this.props.match.params;
+    this.props.getPost(postId);
+  }
+  
   render() {
-    const { user: { credentials: {imageUrl, email, city, username}, isLoading, authenticated}} = this.props;
-    // postId={postId}
-    const deleteButton = authenticated && username === username ? (<DeletePost />) : null
+    const { post:{ postId, userImage, userCity, author, userEmail }, user: { credentials: { username}, authenticated}} = this.props;
+    
+    const deleteButton = authenticated && username === author ? (<DeletePost postId={postId}/>) : null
+
+    const editButton = authenticated && username === author ? (<EditPost postId = {postId}/> ) : null
 
     return (
       
@@ -25,17 +36,17 @@ class viewPost extends Component {
               </Button>
                {/* <!-- panel heading --> */}
                <div className="circle">
-              <Image src={imageUrl} alt=""  className="panel-image" roundedCircle fluid/>
+              <Image src={userImage} alt=""  className="panel-image" roundedCircle fluid/>
                 </div> 
                  <ListGroup >
             <ListGroup.Item className="panel-author">
-              <h2>{username} </h2>
+              <h2>{author} </h2>
             </ListGroup.Item>
             <ListGroup.Item className="panel-city justify-content-center d-flex">
-            <b-icon icon="geo-alt" aria-hidden="true"></b-icon><h4>{city}</h4>
+            <b-icon icon="geo-alt" aria-hidden="true"></b-icon><h4>{userCity}</h4>
             </ListGroup.Item>
             <ListGroup.Item className="panel-contact justify-content-center d-flex">
-            <b-icon icon="chat-text-fill" aria-hidden="true"></b-icon><h5>{email}</h5>
+            <b-icon icon="chat-text-fill" aria-hidden="true"></b-icon><h5>{userEmail}</h5>
             </ListGroup.Item>
             </ListGroup>
             <div className="center-lettuce">
@@ -47,13 +58,13 @@ class viewPost extends Component {
         {/* <!-- main section --> */}
         <Col cols="12" md="8" lg="9">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 className="h2">{username}'s post</h1>
+          <h1 className="h2">{author}'s post</h1>
           <span className="d-flex">
-           <Link to="'/browse/' + post.id + '/edit'" type="button" className="btn btn-lg btn-post">Edit</Link>
+           {editButton}
           {deleteButton}
           </span>
           </div>
-       {/* <Post/> */}
+       <SinglePost/>
           
         </Col>
     </Row>
@@ -65,11 +76,16 @@ class viewPost extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  authenticated: state.user.authenticated
+  authenticated: state.user.authenticated,
+  post: state.data.post,
 })
 
 viewPost.propTypes ={
   user: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps)(viewPost)
+const mapActionsToProps = {
+  getPost
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(viewPost)

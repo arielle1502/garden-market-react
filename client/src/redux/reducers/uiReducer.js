@@ -1,11 +1,11 @@
-import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from '../types';
+import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, STOP_LOADING_UI } from '../types';
 
 const initialState = {
   isLoading: false,
   errors: null
 };
 
-export default function(state = initialState, action){
+export default function uiReducer(state = initialState, action){
   switch(action.type){
     case SET_ERRORS:
       return {
@@ -24,6 +24,11 @@ export default function(state = initialState, action){
             ...state,
             isLoading: true
           };
+        case STOP_LOADING_UI:
+          return{
+            ...state,
+            isLoading: false
+          }
         default:
           return state;
   }

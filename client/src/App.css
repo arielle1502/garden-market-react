@@ -416,3 +416,26 @@ header >>> .nav-center{
 }
 
 /* end view post */
+
+/* single post */
+.post-descript p{
+  font-family: 'Mulish', sans-serif;
+  text-transform: capitalize;
+  text-align: left;
+   margin-bottom:0;
+}
+/* end single post */
+
+/* footer */
+.footer{
+  width:100%;
+  background-color:#DFEFE1;
+  font-family: 'Mulish', sans-serif;
+  display: flex;
+  justify-content: center;
+  
+}
+.footer p{
+ padding-top:1rem;
+ color: #ED5E09;
+}

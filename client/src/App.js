@@ -13,6 +13,7 @@ import { logoutUser, getUserData } from './redux/actions/userActions'
 
 //components
 import NavBar from './components/NavBar'
+import Footer from './components/Footer'
 
 //pages
 import browse from './pages/browse';
@@ -54,9 +55,10 @@ class App extends Component {
             <AuthRoute exact path='/login' component={login} />
             <AuthRoute exact path='/signup' component={signup} />
             <Route exact path='/createpost' component={createPost} />
-            <Route exact path='/post/:postId' component={viewPost}/>
+            <Route path='/post/:postId' component={viewPost}/>
+            
           </Switch>
-          
+          <Footer/>
      </Router>
     </div>
     </Provider>
