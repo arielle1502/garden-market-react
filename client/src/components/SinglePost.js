@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { getPost } from '../redux/actions/dataActions';
 import PropTypes from 'prop-types';
-import Comments from './Comments'
+// import Comments from './Comments'
 
 
 
@@ -81,13 +81,13 @@ dayjs.extend(relativeTime)
                      </Col>
                      <Col xs={3} className="tbl-text">Comments: </Col>
                    <Col xs={2} className="tbl-text">{commentCount}</Col>
-                   <Col xs={5}> <button 
+                   {/* <Col xs={5}> <button 
                       type="button" 
                       className="btn btn-post"
                       onClick = {this.handleOpen}
                       >View Comments</button></Col>
                     <Comments comments={comments}/>
-               
+                */}
               </Row>
             </Col>
             {/* <!-- end post text col -->
