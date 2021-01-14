@@ -3,6 +3,14 @@ const functions = require('firebase-functions');
 const express = require('express');
 const app = express();
 const FBAuth = require('./util/FBAuth');
+const cors = require('cors');
+app.use(cors());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://garden-market-241b9.web.app"); // update to match the domain I will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 const{db} = require('./util/admin')
 
 const { 

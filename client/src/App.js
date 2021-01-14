@@ -27,6 +27,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUsers, faQuestionCircle, faPencilAlt, faArrowCircleLeft, 
   faLock, faBell, faClock, faCalendar, faMapMarkerAlt, faCheck, faTimes, faSearch, faComment} from '@fortawesome/free-solid-svg-icons';
 
+  axios.defaults.baseURL = 'https://australia-southeast1-garden-market-241b9.cloudfunctions.net/api'
+
 const token = localStorage.FBIdToken;
 if(token){
   const decodedToken = jwtDecode(token);
