@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const FBAuth = require('./util/FBAuth');
 const cors = require('cors');
-app.use(cors());
+app.use(cors({origin:true}));
 
 
 const{db} = require('./util/admin')

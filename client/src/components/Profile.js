@@ -127,7 +127,7 @@ class Profile extends Component {
    </InputGroup>
       <ListGroup >
                  <ListGroup.Item className="panel-heading">
-                   <h2>DISCOVER YOUR NEIGHBOUR'S BAKCYARD BOUNTY </h2>
+                   <h2>DISCOVER YOUR NEIGHBOUR'S BACKYARD BOUNTY </h2>
                  </ListGroup.Item>
                  </ListGroup>
                 
